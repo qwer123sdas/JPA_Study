@@ -21,7 +21,7 @@ public class Order {
     @JoinColumn(name = "member_id") // 매핑을 무엇으로 한 건지 지정, pk는 member_id fk는 member
     private Member member;
 
-    @OneToMany(mappedBy = "order_id")
+    @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItems = new ArrayList<>();
 
     @OneToOne
