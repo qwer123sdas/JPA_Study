@@ -22,5 +22,4 @@ public class Member {
 
     @OneToMany(mappedBy = "member")  // 매핑된 거울일 뿐, 읽기 전용일 뿐, 값을 넣는다고 fk쪽이 바뀌지 않음. 즉 order테이블에 있는 member를 가리킴
     private List<Order> orders = new ArrayList<>();
-
 }
