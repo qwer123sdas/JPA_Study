@@ -1,6 +1,8 @@
 package jpabook.jpashop.repository;
 
 import jpabook.jpashop.domain.Member;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -9,11 +11,11 @@ import javax.persistence.PersistenceUnit;
 import java.util.List;
 
 @Repository
+@RequiredArgsConstructor  // 스프링 부트의 데이터 jPA는 Autowired로 DI로 일관성있게 작성 가능함.
 public class MemberRepository {
 
-    @PersistenceContext // jpa의 엔티티 매니저(관리자)를 주입
+    // @PersistenceContext // jpa의 엔티티 매니저(관리자)를 주입
     private EntityManager em;
-
     // @PersistenceUnit // 매니저 팩토리를 주입
 
     public void save(Member member){
@@ -31,8 +33,8 @@ public class MemberRepository {
                 .getResultList();
     }
 
-    public List<Member> findByName(String name){
-        // 파라미터 바인딩 : ':'으로
+
+    public List<Member> findByName(String name) {
         return em.createQuery("select m from Member m where m.name = :name", Member.class)
                 .setParameter("name", name)
                 .getResultList();
