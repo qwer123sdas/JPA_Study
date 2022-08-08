@@ -15,7 +15,7 @@ import java.util.List;
 public class MemberRepository {
 
     // @PersistenceContext // jpa의 엔티티 매니저(관리자)를 주입
-    private EntityManager em;
+    private final EntityManager em;
     // @PersistenceUnit // 매니저 팩토리를 주입
 
     public void save(Member member){
