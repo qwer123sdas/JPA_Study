@@ -17,6 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -84,6 +87,33 @@ public class OrderServiceTest {
          assertEquals("주문취소시 상태는 CANCLE이다.", OrderStatus.CANCEL, getOrder.getStatus());
          assertEquals("주문이 취소된 상품은 그만큼 재고가 증가해야 한다.", 10, item.getStockQuantity());
      }
+     
+     @Test
+     public void Map테스트() throws Exception{
+         //given
+         String[] book = {"119", "1195524421"};
+         Map<String, Integer> map = new HashMap<>();
+         map.put("119", 1);
+         map.put("1195524421", 2);
+         
+         boolean result = false;
+
+         //when
+         for(int i = 0; i < book.length; i++){
+             for(int j = 0; j < book[i].length(); j++){
+                 if(map.containsKey(book[i].substring(0, j))){
+                     result = true;
+                     break;
+                 }else{
+                     result = false;
+                 }
+             }
+         }
+         
+         //then
+         assertEquals("결과 값", true, result);
+         
+      }
 
     private Item createBook(String name, int price, int stockQuantity) {
         Item book = new Book();
