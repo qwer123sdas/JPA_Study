@@ -46,9 +46,95 @@ public class CodingTests {
         Assertions.assertThat(2).isEqualTo(result);
      }
 
+
+    @Test
+    public void 길찾기() throws Exception{
+        //given
+        int[][] maps = {{1,0,1,1,1},{1,0,1,0,1},{1,0,1,1,1},{1,1,1,0,1},{0,0,0,0,1}};
+        int result = 11;
+        //when
+        int r = solution.solution4(maps);
+        //then
+        Assertions.assertThat(result).isEqualTo(r);
+    }
+    @Test
+    public void 전구() throws Exception{
+        //given
+        int[] A = {2,1,3,5,4};
+        //when
+        int result = solution.solution5(A);
+        //then
+        Assertions.assertThat(3).isEqualTo(result);
+     }
+
 }
 
 class Solution {
+
+    public int solution5(int[] A){
+        int answer = 0;  // 1 1
+        int[] arr = new int[A.length];
+        arr[0] = A[0];
+        // 2,1,3,5,4
+        // [2, 3, 4, 1, 5]
+        if(A[0] == 1){
+            answer++;
+        }
+        for(int i = 1; i < A.length; i++){
+            arr[i] = A[i]; // 1,2,3, 5, 4
+            Arrays.sort(arr); // 1,2,3,45,
+            System.out.println(arr[i] - arr[i-1]);
+            if(arr[i] - arr[i-1] == 1){
+                answer++;
+            }
+        }
+        return answer;
+    }
+
+    class Node{
+        int x;
+        int y;
+
+        public Node(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+        public int getX(){
+            return this.x;
+        }
+        public int getY(){
+            return this.y;
+        }
+    }
+    public int solution4(int[][] maps){
+        int xMove[] = {0, 1, 0, -1};
+        int yMove[] = {1, 0, -1, 0};
+        int result = 0;
+        Queue<Node> queue = new LinkedList<>();
+        int x = 0;
+        int y = 0;
+        queue.add(new Node(x, y));
+
+        while(!queue.isEmpty()){
+            Node node = queue.poll();
+            x = node.getX();
+            y = node.getY();
+
+            for(int i = 0; i < 4; i++){
+                int xNext = x + xMove[i];
+                int yNext = y + yMove[i];
+                if(xNext >= 0 && xNext < maps.length &&
+                    yNext >= 0 && yNext < maps[0].length && maps[xNext][yNext] == 1){
+                    maps[xNext][yNext] = maps[x][y] + 1;
+                    queue.offer(new Node(xNext, yNext));
+                }
+            }
+        }
+        int answer = maps[maps.length - 1][maps[0].length - 1];
+
+        return answer == 1 ? -1 : answer;
+    }
+
 
     public int solution3(int[] scoville, int K){
         int answer = 0;
