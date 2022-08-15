@@ -66,11 +66,130 @@ public class CodingTests {
         //then
         Assertions.assertThat(3).isEqualTo(result);
      }
+     
+    @Test
+    public void 소수찾기() throws Exception{
+        //given
+        String numbers = "17";
+        String numbers2 = "011";
+        //when
+        int result = solution.solution7(numbers);
+        int result2 = solution.solution7(numbers2);
+        //then
+        Assertions.assertThat(result).isEqualTo(3);
+        Assertions.assertThat(result2).isEqualTo(2);
+     }
+    @Test
+    public void 소수찾기1레벨() throws Exception{
+        //given
+        int n = 10;
+        //when
+        int result = solution.solution8(n);
+        //then
+        Assertions.assertThat(result).isEqualTo(4);
+    }
 
 }
 
 class Solution {
+    public int solution8(int n) {
+        int answer = 0;
+        for(int i = 2; i <= n; i++){
+            if(isPrime(i)){
+                answer++;
+            }
+        }
 
+        return answer;
+    }
+    public boolean isPrime(int n) {
+        for (int i = 2; i<=(int)Math.sqrt(n); i++) {
+            if (n % i == 0) {
+                System.out.println(n);
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    List<Integer> list1 = new ArrayList<>();
+
+    public int solution7(String numbers) {
+        boolean[] visited = new boolean[numbers.length()];
+        int answer = 0;
+
+        for(int i = 0; i < numbers.length(); i++){
+            dfs(visited, numbers, "", i+1);
+        }
+
+        for(int i = 0; i < list1.size(); i++){
+            if(prime(list1.get(i))){
+                answer++;
+            }
+        }
+        return answer;
+    }
+
+    public void dfs(boolean[] visited, String numbers, String temp, int n){
+        if(temp.length() == n){
+            int number = Integer.valueOf(temp);
+            if(!list1.contains(number)){
+                list1.add(number);
+            }
+        }
+        for(int i = 0; i < numbers.length(); i++){
+            if(!visited[i]){
+                visited[i] = true;
+                temp += numbers.charAt(i);
+                dfs(visited, numbers, temp, n);
+                visited[i] = false;
+                temp = temp.substring(0, temp.length() - 1);
+            }
+        }
+    }
+
+    public boolean prime(int n){
+        if(n < 2){
+            return false;
+        }
+        for(int i = 2; i<=(int)Math.sqrt(n); i++){
+            if(n % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public int[] solution6(int[] answers){
+        int[] A = {1,2,3,4,5};
+        int[] B = {2,1,2,3,2,4,2,5};
+        int[] C = {3,3,1,1,2,2,4,4,5,5};
+        int[] answerABC = {0,0,0};
+
+        for(int i = 0; i < answers.length; i++){
+            if(A[i % A.length] == answers[i]){
+                answerABC[0]++;
+            }
+            if(B[i % A.length] == answers[i]){
+                answerABC[1]++;
+            }
+            if(B[i % A.length] == answers[i]){
+                answerABC[2]++;
+            }
+        }
+
+        int max = Arrays.stream(answerABC).max().getAsInt();
+        List<Integer> list = new ArrayList<Integer>();
+        if(max == answerABC[0]){list.add(1);}
+        if(max == answerABC[1]){list.add(2);}
+        if(max == answerABC[2]){list.add(3);}
+
+        return list.stream().mapToInt(i -> i.intValue()).toArray();
+
+
+
+    }
     public int solution5(int[] A){
         int answer = 0;  // 1 1
         int[] arr = new int[A.length];
