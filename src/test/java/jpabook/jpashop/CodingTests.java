@@ -88,10 +88,110 @@ public class CodingTests {
         //then
         Assertions.assertThat(result).isEqualTo(4);
     }
+    @Test
+    public void 최소직사각형() throws Exception{
+        //given
+        int[][] sizes = {{60, 50}, {30, 70}, {60, 30}, {80, 40}};
+        //when
+        int result = solution.solution9(sizes);
+        //then
+        Assertions.assertThat(result).isEqualTo(4000);
+    }
+    
+    @Test
+    public void 정수제곱근() throws Exception{
+        //given
+        long a = 121;
+        long n = 3;
+        //when
+        long result = solution.solution10(a);
+        long result2= solution.solution10(n);
+        //then
+        Assertions.assertThat(result).isEqualTo(144);
+        Assertions.assertThat(result2).isEqualTo(-1);
+    }
+    
+    @Test
+    public void 로또번호() throws Exception{
+        //given
+        int[] lottos = {45, 4, 35, 20, 3, 9};
+        int[] win_nums = {20, 9, 3, 45, 4, 35};
+        //when
+        int[] result = solution.solution11(lottos, win_nums);
+        int[] expect = {1, 1};
+        //then
+        Assertions.assertThat(result).isEqualTo(expect);
+    }
 
 }
 
 class Solution {
+    public int[] solution11(int[] lottos, int[] win_nums) {
+        int[] arr = {6,5,4,3,2};
+        int[] answer = new int[2];
+        int countMax = 0;
+        int countMin = 0;
+
+        for(int i = 0; i < 6; i++){
+            int temp = lottos[i];
+            if(Arrays.stream(win_nums).anyMatch(x -> x == temp)){
+                countMax++;
+                countMin++;
+            }
+            if(lottos[i] == 0){
+                countMax++;
+            }
+        }
+
+        for(int i = 0; i < arr.length; i++){
+            if(arr[i] == countMax){
+                answer[0] = i + 1;
+            }
+            if(countMax <= 1){
+                answer[0] = 6;
+            }
+        }
+
+        for(int i = 0; i < arr.length; i++){
+            if(arr[i] == countMin){
+                answer[1] = i + 1;
+            }
+            if(countMin <= 1){
+                answer[1] = 6;
+            }
+        }
+        return answer;
+    }
+
+    public long solution10(long n) {
+        double answer = (double) Math.sqrt(n);
+        System.out.println(answer);
+        if(Math.floor(answer) == answer){
+            return (long)((answer + 1) * (answer + 1));
+        }
+        return -1;
+        
+        /* 다른사라 ㅁ답
+        *       if (Math.pow((int)Math.sqrt(n), 2) == n) {
+            return (long) Math.pow(Math.sqrt(n) + 1, 2);
+        }
+        * */
+    }
+
+
+    public int solution9(int[][] sizes) {
+        int[] arr = {0,0};
+        for(int i = 0; i < sizes.length; i++){
+            int d = Math.max(sizes[i][0], sizes[i][1]);
+            int h = Math.min(sizes[i][0], sizes[i][1]);
+            arr[0] = Math.max(arr[0], d);
+            arr[1] = Math.max(arr[1], h);
+        }
+        return arr[0] * arr[1];
+    }
+
+
+
     public int solution8(int n) {
         int answer = 0;
         for(int i = 2; i <= n; i++){
