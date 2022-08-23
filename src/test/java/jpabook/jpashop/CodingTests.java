@@ -9,7 +9,17 @@ import java.util.*;
 public class CodingTests {
 
     Solution solution = new Solution();
+    @Test
+    public void 부족한금액계산() throws Exception{
+        //given
+        int price = 3, money = 20, count = 4, result = 10;
 
+        //when
+        int expect = solution.solution12(price, money, count);
+        //then
+        Assertions.assertThat(result).isEqualTo(expect);
+        
+    }
     @Test
     public void 큐스택() throws Exception{
         //given
@@ -126,6 +136,15 @@ public class CodingTests {
 }
 
 class Solution {
+    public int solution12(int price, int money, int count) {
+        int total = 0;
+
+        for(int i = 1; i <= count; i++){
+            total += i * price;
+        }
+
+        return total - money;
+    }
     public int[] solution11(int[] lottos, int[] win_nums) {
         int[] arr = {6,5,4,3,2};
         int[] answer = new int[2];
