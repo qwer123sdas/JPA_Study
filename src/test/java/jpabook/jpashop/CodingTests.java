@@ -4,6 +4,7 @@ package jpabook.jpashop;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class CodingTests {
@@ -132,10 +133,67 @@ public class CodingTests {
         //then
         Assertions.assertThat(result).isEqualTo(expect);
     }
+    @Test
+    public void 전화번호() throws Exception{
+        //given
+        
+        //when
+        
+        //then
+        
+    }
 
 }
 
 class Solution {
+    public String solution13(int[] numbers, String hand) {
+        String answer = "";
+        ArrayList<Integer> left= new ArrayList<>();
+        left.add(1); left.add(4); left.add(7);
+        ArrayList<Integer> right= new ArrayList<>();
+        right.add(3); right.add(6); right.add(9);
+        int leftIndex = 10;
+        int rightIndex = 12;
+
+        for(int number : numbers){
+            if(left.contains(number)){
+                answer += "L";
+                leftIndex = number;
+            } else if (right.contains(number)) {
+                answer +="R";
+                rightIndex = number;
+            }else{
+                if(number == 0){
+                    number = 11;
+                }
+                int leftLength = (Math.abs(number-leftIndex))/3 + (Math.abs(number-leftIndex))%3;
+                // 2
+                // 5 ,9 -> 1 + 1
+                // 8
+                int rightLength = (Math.abs(number-rightIndex))/3 + (Math.abs(number-rightIndex))%3;
+
+                if(leftLength == rightLength){
+                    if(hand.equals("right")){
+                        answer += "R";
+                        rightIndex = number;
+                    }else{
+                        answer += "L";
+                        leftIndex = number;
+                    }
+                } else if (leftLength > rightLength) {
+                    answer += "R";
+                    rightIndex = number;
+                }else{
+                    answer += "L";
+                    leftIndex = number;
+                }
+            }
+        }
+        return answer;
+    }
+    private void calculate(){
+
+    }
     public int solution12(int price, int money, int count) {
         int total = 0;
 
