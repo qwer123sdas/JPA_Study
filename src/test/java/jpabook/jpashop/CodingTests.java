@@ -6,10 +6,13 @@ import org.junit.Test;
 
 import java.lang.reflect.Array;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class CodingTests {
 
     Solution solution = new Solution();
+
     @Test
     public void 부족한금액계산() throws Exception{
         //given
@@ -142,10 +145,58 @@ public class CodingTests {
         //then
         
     }
+    @Test
+    public void 없는숫자더하기() throws Exception{
+        //given
+        int[] numbers = {1,2,3,4,6,7,8,0};
+        int expect = 14;
+        //when
+        int result = solution.solution14(numbers);
+
+        //then
+        Assertions.assertThat(result).isEqualTo(expect);
+    }
+    @Test
+    public void 같은숫자싫어() throws Exception{
+        //given
+        int[] arr = {1,1,3,3,0,1,1};
+        int[] expect = {1,3,0,1};
+        //when
+        int[] result = solution.solution15(arr);
+        //then
+        Assertions.assertThat(expect).contains(result);
+
+    }
 
 }
 
 class Solution {
+    public int[] solution15(int[] arr) {
+        Queue<Integer> queue = new LinkedList<>();
+        for(int i = 0; i < arr.length; i++){
+            if(queue.isEmpty()){
+                queue.add(arr[i]);
+                break;
+            }
+            if(queue.peek() == arr[i]){
+                queue.poll();
+                queue.add(arr[i]);
+            }
+        }
+
+        return queue.stream().mapToInt(i->i).toArray();
+    }
+    public int solution14(int[] numbers) {
+        int answer = 0;
+        int[] default10 = {0,1,2,3,4,5,6,7,8,9};
+        List<Integer> collect = Arrays.stream(numbers).boxed().collect(Collectors.toList());
+        for(int num : default10){
+            if(!collect.contains(num)){
+                answer += num;
+            }
+        }
+        return answer;
+    }
     public String solution13(int[] numbers, String hand) {
         String answer = "";
         ArrayList<Integer> left= new ArrayList<>();
