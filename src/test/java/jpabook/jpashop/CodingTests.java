@@ -164,7 +164,7 @@ public class CodingTests {
         //when
         int[] result = solution.solution15(arr);
         //then
-        Assertions.assertThat(expect).contains(result);
+        Assertions.assertThat(expect).isEqualTo(result);
 
     }
 
@@ -172,15 +172,19 @@ public class CodingTests {
 
 class Solution {
     public int[] solution15(int[] arr) {
-        Queue<Integer> queue = new LinkedList<>();
-        for(int i = 0; i < arr.length; i++){
-            if(queue.isEmpty()){
+        Stack<Integer> queue = new Stack<>();
+        queue.add(arr[0]);
+        for(int i = 1; i < arr.length; i++){
+            System.out.println("현재 : " +arr[i]);
+            if(queue.peek() == arr[i]){  // 1 == 3
+                System.out.println("전 : " + queue.peek());
+                System.out.println("비교대상 : " +arr[i]);
+                queue.pop();
                 queue.add(arr[i]);
-                break;
-            }
-            if(queue.peek() == arr[i]){
-                queue.poll();
+                System.out.println("후 : " + queue.peek());
+            }else{
                 queue.add(arr[i]);
+                System.out.println("더함 : " + queue.peek());
             }
         }
 
